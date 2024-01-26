@@ -18,6 +18,8 @@ public class MainWindow {
 	private final JButton scissorsButton;
 	private final JButton paperButton;
 	
+	private final JButton resetButton;
+	
 	private Status playState;
 	private Hands opponentHand;
 	
@@ -50,6 +52,11 @@ public class MainWindow {
 		this.paperButton.addActionListener((e) -> this.selectHand(Hands.Paper));
 		canvas.add(this.paperButton);
 		
+		this.resetButton = new JButton("もう一度遊ぶ");
+		this.resetButton.setBounds(250, 200, 100, 40);
+		this.resetButton.addActionListener((e) -> this.reset());
+		canvas.add(this.resetButton);
+		
 		pane.add(canvas);
 	}
 	
@@ -63,6 +70,12 @@ public class MainWindow {
 		this.playState = Status.Wait;
 	}
 	
+	public void reset() {
+		this.messageLabel.setText("じゃーんけーん・・・");
+		this.opponentHand = Hands.getRandomHand();
+		this.playState = Status.Wait;
+	}
+	
 	public void selectHand(Hands selected) {
 		if (this.playState != Status.Wait) {
 			return;
@@ -71,9 +84,12 @@ public class MainWindow {
 		switch ((selected.getNumber() - opponentHand.getNumber() + 3) % 3) {
 		case 0:
 			this.messageLabel.setText("あーいこーで・・・");
+			this.init();
+			break;
 		case 1:
 			this.messageLabel.setText(String.format("相手が出したのは「%s」なのであなたの負けです。", this.opponentHand.getDisplay()));
 			this.playState = Status.Done;
+			break;
 		case 2:
 			this.messageLabel.setText(String.format("相手が出したのは「%s」なのであなたの勝ちです。", this.opponentHand.getDisplay()));
 			this.playState = Status.Done;

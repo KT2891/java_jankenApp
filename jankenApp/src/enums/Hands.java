@@ -6,8 +6,8 @@ import java.util.Random;
 // 列挙型で作成
 public enum Hands {
 	Rock("グー", 0),
-	Scissors("チョキ", 0),
-	Paper("パー", 0);
+	Scissors("チョキ", 1),
+	Paper("パー", 2);
 	
 	private final String display;
 	private final int number;
