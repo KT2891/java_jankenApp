@@ -53,6 +53,11 @@ public class MainWindow {
 		pane.add(canvas);
 	}
 	
+	public void show() {
+		this.init();
+		this.frame.setVisible(true);
+	}
+	
 	public void init() {
 		this.opponentHand = Hands.getRandomHand();
 		this.playState = Status.Wait;
