@@ -1,4 +1,4 @@
-package jankenApp;
+package enums;
 
 import java.util.Random;
 
