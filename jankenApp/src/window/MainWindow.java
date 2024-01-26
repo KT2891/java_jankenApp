@@ -4,6 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import enums.Hands;
 import enums.Status;
@@ -22,6 +23,11 @@ public class MainWindow {
 	
 	private Status playState;
 	private Hands opponentHand;
+	private JTextField winText;
+	private JTextField loseText;
+	
+	private int winCnt = 0;
+	private int loseCnt = 0;
 	
 	public MainWindow() {
 		this.frame = new JFrame("じゃんけんゲーム!");
@@ -58,6 +64,16 @@ public class MainWindow {
 		canvas.add(this.resetButton);
 		
 		pane.add(canvas);
+		
+		winText = new JTextField(String.format("勝ち : %s", winCnt));
+		winText.setBounds(100, 300, 130, 40);
+		canvas.add(winText);
+		winText.setColumns(10);
+		
+		loseText = new JTextField(String.format("負け : %s", loseCnt));
+		loseText.setColumns(10);
+		loseText.setBounds(370, 300, 130, 40);
+		canvas.add(loseText);
 	}
 	
 	public void show() {
@@ -76,6 +92,11 @@ public class MainWindow {
 		this.playState = Status.Wait;
 	}
 	
+	public void update() {
+		this.winText.setText(String.format("勝ち : %s", winCnt));
+		this.loseText.setText(String.format("負け : %s", loseCnt));
+	}
+	
 	public void selectHand(Hands selected) {
 		if (this.playState != Status.Wait) {
 			return;
@@ -89,12 +110,15 @@ public class MainWindow {
 		case 1:
 			this.messageLabel.setText(String.format("相手が出したのは「%s」なのであなたの負けです。", this.opponentHand.getDisplay()));
 			this.playState = Status.Done;
+			loseCnt ++;
+			update();
 			break;
 		case 2:
 			this.messageLabel.setText(String.format("相手が出したのは「%s」なのであなたの勝ちです。", this.opponentHand.getDisplay()));
 			this.playState = Status.Done;
+			winCnt ++;
+			update();
 			break;
 		}
 	}
-	
 }
